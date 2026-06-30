@@ -51,13 +51,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Get base directory for absolute path resolution
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Create static/ and templates/ directories if they don't exist
-os.makedirs("static", exist_ok=True)
-os.makedirs("templates", exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, "static"), exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, "templates"), exist_ok=True)
 
 # Mount Static Files and Templates
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 # Initialize SQLite database on startup
 @app.on_event("startup")

@@ -2,10 +2,6 @@ fastapi
 uvicorn
 jinja2
 google-generativeai
-transformers
-torch
-accelerate
-sentencepiece
 python-multipart
 python-dotenv
 pydantic

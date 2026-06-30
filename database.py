@@ -4,11 +4,28 @@ from typing import Optional, List, Dict, Any
 
 DB_FILE = "edugenie.db"
 
+def get_db_path() -> str:
+    """
+    Returns the absolute path to the database file.
+    On Vercel, redirects database path to /tmp to avoid read-only filesystem errors.
+    """
+    if os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV"):
+        tmp_db = "/tmp/edugenie.db"
+        if not os.path.exists(tmp_db):
+            try:
+                import shutil
+                if os.path.exists("edugenie.db"):
+                    shutil.copy("edugenie.db", tmp_db)
+            except Exception as e:
+                print(f"Failed to copy DB to /tmp: {e}")
+        return tmp_db
+    return DB_FILE
+
 def get_connection() -> sqlite3.Connection:
     """
     Establishes and returns a connection to the SQLite database.
     """
-    conn = sqlite3.connect(DB_FILE)
+    conn = sqlite3.connect(get_db_path())
     # Enable foreign keys support in SQLite
     conn.execute("PRAGMA foreign_keys = ON;")
     return conn
