@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduGenie – Google Gemini Powered Learning Assistant</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/style.css?v=1.0.2">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
+                    <span>EduGenie</span>
+                </div>
+                <p class="logo-subtitle">Gemini Learning Assistant</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#qa-section" class="nav-item active" id="nav-qa">
+                    <i class="fa-solid fa-circle-question"></i> Question Answering
+                </a>
+                <a href="#explain-section" class="nav-item" id="nav-explain">
+                    <i class="fa-solid fa-graduation-cap"></i> Concept Explainer
+                </a>
+                <a href="#summary-section" class="nav-item" id="nav-summary">
+                    <i class="fa-solid fa-file-invoice"></i> Text Summarizer
+                </a>
+                <a href="#quiz-section" class="nav-item" id="nav-quiz">
+                    <i class="fa-solid fa-clipboard-list"></i> Quiz Generator
+                </a>
+                <a href="#learn-section" class="nav-item" id="nav-learn">
+                    <i class="fa-solid fa-map-signs"></i> Learning Paths
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile-card" id="profile-trigger" title="Edit Profile & Theme">
+                    <div class="avatar-container" id="sidebar-avatar-container">
+                        <!-- Active avatar is dynamically injected -->
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="sidebar-user-name">Guest User</span>
+                        <span class="user-role-badge" id="sidebar-user-role">Student</span>
+                    </div>
+                    <div class="settings-icon">
+                        <i class="fa-solid fa-cog"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1>Welcome back, <span class="highlight">Scholar!</span></h1>
+                    <p class="header-desc">Empower your academic journey with advanced AI-driven explanations, summaries, quizzes, and paths.</p>
+                </div>
+                <div class="header-right">
+                    <div class="status-indicator">
+                        <span class="status-pulse"></span>
+                        <span class="status-text">Connected to API</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid Sections -->
+            <div class="sections-container">
+                
+                <!-- 1. QUESTION ANSWERING CARD -->
+                <section id="qa-section" class="module-card">
+                    <div class="card-header">
+                        <div class="icon-wrap color-qa">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </div>
+                        <div class="header-text">
+                            <h2>Question Answering</h2>
+                            <p>Ask any educational question and get detailed, student-friendly answers.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <label for="qa-input">Enter your academic query</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="qa-input" placeholder="e.g., What is photosynthesis?" value="What is photosynthesis?">
+                                <button id="qa-submit" class="btn btn-qa">
+                                    <span>Ask Genie</span> <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="output-container" id="qa-output-container">
+                            <div class="placeholder-text">
+                                <i class="fa-solid fa-brain"></i>
+                                <p>Answers from Gemini will appear here...</p>
+                            </div>
+                            <div class="loader" id="qa-loader">
+                                <div class="spinner"></div>
+                                <p>Consulting the Genie...</p>
+                            </div>
+                            <div class="output-content markdown-body" id="qa-output"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. CONCEPT EXPLANATION CARD -->
+                <section id="explain-section" class="module-card">
+                    <div class="card-header">
+                        <div class="icon-wrap color-explain">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="header-text">
+                            <h2>Concept Explainer</h2>
+                            <p>Simplifies complex scientific or math concepts into clear, beginner-friendly terms.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <label for="explain-input">Enter a concept topic</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="explain-input" placeholder="e.g., Photosynthesis" value="Photosynthesis">
+                                <button id="explain-submit" class="btn btn-explain">
+                                    <span>Explain Simply</span> <i class="fa-solid fa-bolt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="output-container" id="explain-output-container">
+                            <div class="placeholder-text">
+                                <i class="fa-solid fa-baby-carriage"></i>
+                                <p>Simple explanations from T5 will appear here...</p>
+                            </div>
+                            <div class="loader" id="explain-loader">
+                                <div class="spinner"></div>
+                                <p>Simplifying the concept...</p>
+                            </div>
+                            <div class="output-content markdown-body" id="explain-output"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. SUMMARIZATION CARD -->
+                <section id="summary-section" class="module-card">
+                    <div class="card-header">
+                        <div class="icon-wrap color-summary">
+                            <i class="fa-solid fa-file-invoice"></i>
+                        </div>
+                        <div class="header-text">
+                            <h2>Text Summarizer</h2>
+                            <p>Condense long chapters, papers, or study notes into essential, readable bullet points.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <label for="summary-input">Paste long educational text</label>
+                            <textarea id="summary-input" rows="6" placeholder="Paste your study material here (minimum 5 characters)...">Photosynthesis is a process used by plants and other organisms to convert light energy into chemical energy that, through cellular respiration, can later be released to fuel the organism's activities. This chemical energy is stored in carbohydrate molecules, such as sugars, which are synthesized from carbon dioxide and water. In most cases, oxygen is also released as a waste product. Most plants, algae, and cyanobacteria perform photosynthesis; such organisms are called photoautotrophs. Photosynthesis is largely responsible for producing and maintaining the oxygen content of the Earth's atmosphere, and supplies most of the energy necessary for life on Earth.</textarea>
+                            <button id="summary-submit" class="btn btn-summary">
+                                <span>Summarize Text</span> <i class="fa-solid fa-compress"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="output-container" id="summary-output-container">
+                            <div class="placeholder-text">
+                                <i class="fa-solid fa-list-check"></i>
+                                <p>Condensation summaries will appear here...</p>
+                            </div>
+                            <div class="loader" id="summary-loader">
+                                <div class="spinner"></div>
+                                <p>Condensing and extracting key points...</p>
+                            </div>
+                            <div class="output-content markdown-body" id="summary-output"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. QUIZ GENERATION CARD -->
+                <section id="quiz-section" class="module-card">
+                    <div class="card-header">
+                        <div class="icon-wrap color-quiz">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                        </div>
+                        <div class="header-text">
+                            <h2>Quiz Generator</h2>
+                            <p>Create a custom 3-question MCQ quiz to test your understanding of any topic.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <label for="quiz-input">Topic or text for Quiz</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="quiz-input" placeholder="e.g., Photosynthesis" value="Photosynthesis">
+                                <button id="quiz-submit" class="btn btn-quiz">
+                                    <span>Generate Quiz</span> <i class="fa-solid fa-circle-question"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="output-container" id="quiz-output-container">
+                            <div class="placeholder-text">
+                                <i class="fa-solid fa-gamepad"></i>
+                                <p>Your quiz will generate here. Test your knowledge!</p>
+                            </div>
+                            <div class="loader" id="quiz-loader">
+                                <div class="spinner"></div>
+                                <p>Generating MCQs...</p>
+                            </div>
+                            <!-- Quiz Interactive Interface -->
+                            <div id="quiz-interactive" class="quiz-container">
+                                <div id="quiz-questions"></div>
+                                <div class="quiz-footer">
+                                    <button id="quiz-check" class="btn btn-success">
+                                        Check Answers <i class="fa-solid fa-check-double"></i>
+                                    </button>
+                                    <div id="quiz-score" class="quiz-score-badge"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. LEARNING PATH CARD -->
+                <section id="learn-section" class="module-card">
+                    <div class="card-header">
+                        <div class="icon-wrap color-learn">
+                            <i class="fa-solid fa-map-signs"></i>
+                        </div>
+                        <div class="header-text">
+                            <h2>Learning Paths</h2>
+                            <p>Receive a structured academic study roadmap from Beginner to Advanced levels.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <label for="learn-input">Subject or Topic path</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="learn-input" placeholder="e.g., Photosynthesis" value="Photosynthesis">
+                                <button id="learn-submit" class="btn btn-learn">
+                                    <span>Get Roadmap</span> <i class="fa-solid fa-route"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="output-container" id="learn-output-container">
+                            <div class="placeholder-text">
+                                <i class="fa-solid fa-road"></i>
+                                <p>Roadmaps and resource recommendation guides appear here...</p>
+                            </div>
+                            <div class="loader" id="learn-loader">
+                                <div class="spinner"></div>
+                                <p>Planning roadmap levels...</p>
+                            </div>
+                            <div class="output-content markdown-body" id="learn-output"></div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Profile Customization Settings Modal -->
+    <div class="profile-modal-overlay" id="profile-modal">
+        <div class="profile-modal-card">
+            <div class="modal-header">
+                <h3>Customize Profile</h3>
+                <button id="modal-close" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="profile-name-input">Display Name</label>
+                    <input type="text" id="profile-name-input" placeholder="Guest User">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-role-select">Academic Role</label>
+                    <select id="profile-role-select">
+                        <option value="Student">Student</option>
+                        <option value="Scholar">Scholar</option>
+                        <option value="Researcher">Researcher</option>
+                        <option value="Educator">Educator</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Choose Avatar Preset</label>
+                    <div class="preset-grid" id="avatar-presets-grid">
+                        <div class="preset-option" data-avatar="wizard" title="Tech Wizard">
+                            <div class="preset-avatar-circle color-purple">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+                            <span>Wizard</span>
+                        </div>
+                        <div class="preset-option" data-avatar="scholar" title="Robo Scholar">
+                            <div class="preset-avatar-circle color-blue">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <span>Robo</span>
+                        </div>
+                        <div class="preset-option" data-avatar="ninja" title="Code Ninja">
+                            <div class="preset-avatar-circle color-emerald">
+                                <i class="fa-solid fa-user-ninja"></i>
+                            </div>
+                            <span>Ninja</span>
+                        </div>
+                        <div class="preset-option" data-avatar="explorer" title="Space Explorer">
+                            <div class="preset-avatar-circle color-pink">
+                                <i class="fa-solid fa-user-astronaut"></i>
+                            </div>
+                            <span>Explorer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Dashboard Accent Theme</label>
+                    <div class="color-picker-grid" id="theme-color-picker">
+                        <div class="color-option color-purple" data-theme="purple" title="Edu Purple"></div>
+                        <div class="color-option color-emerald" data-theme="emerald" title="Emerald"></div>
+                        <div class="color-option color-blue" data-theme="blue" title="Ocean Blue"></div>
+                        <div class="color-option color-pink" data-theme="pink" title="Cyber Pink"></div>
+                        <div class="color-option color-orange" data-theme="orange" title="Sunset Orange"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button id="profile-cancel-btn" class="btn btn-cancel">Cancel</button>
+                <button id="profile-save-btn" class="btn btn-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Frontend Interactive Javascript -->
+    <script>
+        // Custom Markdown Parser
+        function parseMarkdown(text) {
+            if (!text) return "";
+            
+            // Protect equations
+            let html = text.trim();
+            html = html.replace(/\$\$(.*?)\$\$/g, '<div class="math-block">$1</div>');
+            html = html.replace(/\$(.*?)\$/g, '<span class="math-inline">$1</span>');
+
+            // Headings
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+            // Bold
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Italic
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            // Parse line by line to handle lists properly
+            let lines = html.split('\n');
+            let output = [];
+            let inList = null; // can be 'ul', 'ol', or null
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                let trimmed = line.trim();
+
+                // Check for Unordered List Item
+                let ulMatch = line.match(/^(\s*)[-•*]\s+(.*$)/i);
+                // Check for Ordered List Item
+                let olMatch = line.match(/^(\s*)\d+\.\s+(.*$)/i);
+
+                if (ulMatch) {
+                    if (inList === 'ol') {
+                        output.push('</ol>');
+                        inList = null;
+                    }
+                    if (inList === null) {
+                        output.push('<ul>');
+                        inList = 'ul';
+                    }
+                    output.push(`<li>${ulMatch[2]}</li>`);
+                } else if (olMatch) {
+                    if (inList === 'ul') {
+                        output.push('</ul>');
+                        inList = null;
+                    }
+                    if (inList === null) {
+                        output.push('<ol>');
+                        inList = 'ol';
+                    }
+                    output.push(`<li>${olMatch[2]}</li>`);
+                } else {
+                    if (inList === 'ul') {
+                        output.push('</ul>');
+                        inList = null;
+                    } else if (inList === 'ol') {
+                        output.push('</ol>');
+                        inList = null;
+                    }
+
+                    if (trimmed.startsWith('<h') || trimmed.startsWith('<div') || trimmed.startsWith('<p') || trimmed.startsWith('<ul') || trimmed.startsWith('<ol') || trimmed.startsWith('<li') || trimmed === "") {
+                        output.push(line);
+                    } else {
+                        output.push(line + '<br>');
+                    }
+                }
+            }
+
+            if (inList === 'ul') {
+                output.push('</ul>');
+            } else if (inList === 'ol') {
+                output.push('</ol>');
+            }
+
+            return output.join('\n');
+        }
+
+        // DOM Elements
+        const elements = {
+            qaInput: document.getElementById('qa-input'),
+            qaSubmit: document.getElementById('qa-submit'),
+            qaOutput: document.getElementById('qa-output'),
+            qaLoader: document.getElementById('qa-loader'),
+            qaOutputContainer: document.getElementById('qa-output-container'),
+
+            explainInput: document.getElementById('explain-input'),
+            explainSubmit: document.getElementById('explain-submit'),
+            explainOutput: document.getElementById('explain-output'),
+            explainLoader: document.getElementById('explain-loader'),
+            explainOutputContainer: document.getElementById('explain-output-container'),
+
+            summaryInput: document.getElementById('summary-input'),
+            summarySubmit: document.getElementById('summary-submit'),
+            summaryOutput: document.getElementById('summary-output'),
+            summaryLoader: document.getElementById('summary-loader'),
+            summaryOutputContainer: document.getElementById('summary-output-container'),
+
+            quizInput: document.getElementById('quiz-input'),
+            quizSubmit: document.getElementById('quiz-submit'),
+            quizLoader: document.getElementById('quiz-loader'),
+            quizInteractive: document.getElementById('quiz-interactive'),
+            quizQuestions: document.getElementById('quiz-questions'),
+            quizCheck: document.getElementById('quiz-check'),
+            quizScore: document.getElementById('quiz-score'),
+            quizOutputContainer: document.getElementById('quiz-output-container'),
+
+            learnInput: document.getElementById('learn-input'),
+            learnSubmit: document.getElementById('learn-submit'),
+            learnOutput: document.getElementById('learn-output'),
+            learnLoader: document.getElementById('learn-loader'),
+            learnOutputContainer: document.getElementById('learn-output-container'),
+            
+            navItems: document.querySelectorAll('.nav-item')
+        };
+
+        // Sidebar Navigation Active Highlight & Scroll
+        elements.navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                elements.navItems.forEach(n => n.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // Current Quiz Data state
+        let currentQuizData = [];
+
+        // Dynamic API Fetch Helpers
+        async function fetchAPI(url, method = 'GET', body = null, loader, outputEl, container, renderer) {
+            // Reset state
+            container.classList.add('loading');
+            loader.style.display = 'flex';
+            outputEl.style.display = 'none';
+            
+            // Clear placeholder
+            const placeholder = container.querySelector('.placeholder-text');
+            if (placeholder) placeholder.style.display = 'none';
+
+            try {
+                const config = {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' }
+                };
+                if (body) {
+                    config.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(url, config);
+                if (!response.ok) {
+                    throw new Error(`Server returned error status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                renderer(data);
+                
+                outputEl.style.display = 'block';
+            } catch (err) {
+                console.error(err);
+                outputEl.innerHTML = `<div class="error-box"><i class="fa-solid fa-circle-exclamation"></i> Error: ${err.message}. Please try again later.</div>`;
+                outputEl.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+                container.classList.remove('loading');
+            }
+        }
+
+        // 1. Q&A Submit
+        elements.qaSubmit.addEventListener('click', () => {
+            const question = elements.qaInput.value.trim();
+            if (!question) return;
+            fetchAPI(
+                `/qa?question=${encodeURIComponent(question)}`,
+                'GET',
+                null,
+                elements.qaLoader,
+                elements.qaOutput,
+                elements.qaOutputContainer,
+                (data) => {
+                    elements.qaOutput.innerHTML = parseMarkdown(data.answer);
+                }
+            );
+        });
+
+        // 2. Concept Explainer Submit
+        elements.explainSubmit.addEventListener('click', () => {
+            const topic = elements.explainInput.value.trim();
+            if (!topic) return;
+            fetchAPI(
+                '/explain',
+                'POST',
+                { topic: topic },
+                elements.explainLoader,
+                elements.explainOutput,
+                elements.explainOutputContainer,
+                (data) => {
+                    elements.explainOutput.innerHTML = parseMarkdown(data.explanation);
+                }
+            );
+        });
+
+        // 3. Summarization Submit
+        elements.summarySubmit.addEventListener('click', () => {
+            const text = elements.summaryInput.value.trim();
+            if (!text || text.length < 5) {
+                alert('Text must be at least 5 characters long.');
+                return;
+            }
+            fetchAPI(
+                '/summarize',
+                'POST',
+                { text: text },
+                elements.summaryLoader,
+                elements.summaryOutput,
+                elements.summaryOutputContainer,
+                (data) => {
+                    elements.summaryOutput.innerHTML = parseMarkdown(data.summary);
+                }
+            );
+        });
+
+        // 4. Quiz Generator Submit
+        elements.quizSubmit.addEventListener('click', () => {
+            const topic = elements.quizInput.value.trim();
+            if (!topic) return;
+            
+            // Reset Quiz UI
+            elements.quizInteractive.style.display = 'none';
+            elements.quizScore.style.display = 'none';
+            elements.quizScore.innerHTML = '';
+            
+            fetchAPI(
+                '/quiz',
+                'POST',
+                { topic: topic },
+                elements.quizLoader,
+                elements.quizQuestions, // Render target for the questions
+                elements.quizOutputContainer,
+                (questions) => {
+                    currentQuizData = questions;
+                    renderQuiz(questions);
+                    elements.quizInteractive.style.display = 'block';
+                }
+            );
+        });
+
+        // Render Quiz HTML
+        function renderQuiz(questions) {
+            elements.quizQuestions.innerHTML = '';
+            questions.forEach((q, qIndex) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'quiz-question-card';
+                questionCard.innerHTML = `
+                    <p class="quiz-question-text"><strong>Q${qIndex + 1}.</strong> ${escapeHtml(q.question)}</p>
+                    <div class="quiz-options-grid">
+                        ${q.options.map((opt, oIndex) => `
+                            <label class="quiz-option-label" for="q-${qIndex}-o-${oIndex}">
+                                <input type="radio" name="q-${qIndex}" id="q-${qIndex}-o-${oIndex}" value="${escapeHtml(opt)}">
+                                <span class="option-text">${escapeHtml(opt)}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                elements.quizQuestions.appendChild(questionCard);
+            });
+            elements.quizCheck.style.display = 'inline-block';
+        }
+
+        // Verify Quiz Answers
+        elements.quizCheck.addEventListener('click', () => {
+            let score = 0;
+            let allAnswered = true;
+
+            // Check if all questions are answered first
+            for (let qIndex = 0; qIndex < currentQuizData.length; qIndex++) {
+                const selectedInput = document.querySelector(`input[name="q-${qIndex}"]:checked`);
+                if (!selectedInput) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+
+            if (!allAnswered) {
+                alert('Please answer all 3 questions before checking!');
+                return;
+            }
+
+            // Apply visual styles and compute score
+            currentQuizData.forEach((q, qIndex) => {
+                const selectedInput = document.querySelector(`input[name="q-${qIndex}"]:checked`);
+                const optionsLabels = document.querySelectorAll(`input[name="q-${qIndex}"]`);
+
+                optionsLabels.forEach(optInput => {
+                    const label = optInput.closest('.quiz-option-label');
+                    label.classList.remove('correct', 'incorrect');
+
+                    if (optInput.value === q.correct_answer) {
+                        label.classList.add('correct'); // Highlight correct answer
+                    } else if (optInput.checked) {
+                        label.classList.add('incorrect'); // Highlight incorrect check
+                    }
+                });
+
+                if (selectedInput && selectedInput.value === q.correct_answer) {
+                    score++;
+                }
+            });
+
+            elements.quizScore.innerHTML = `You Scored: <strong>${score} / 3</strong>`;
+            elements.quizScore.style.display = 'inline-block';
+            
+            // Scroll to the bottom of the quiz container
+            elements.quizOutputContainer.scrollTop = elements.quizOutputContainer.scrollHeight;
+        });
+
+        // 5. Learning Recommendation Submit
+        elements.learnSubmit.addEventListener('click', () => {
+            const topic = elements.learnInput.value.trim();
+            if (!topic) return;
+            fetchAPI(
+                `/learn/recommendations?topic=${encodeURIComponent(topic)}`,
+                'GET',
+                null,
+                elements.learnLoader,
+                elements.learnOutput,
+                elements.learnOutputContainer,
+                (data) => {
+                    elements.learnOutput.innerHTML = parseMarkdown(data.roadmap);
+                }
+            );
+        });
+        // ==========================================================================
+        // Profile Customization & Theme Management Script
+        // ==========================================================================
+        const profileElements = {
+            trigger: document.getElementById('profile-trigger'),
+            modal: document.getElementById('profile-modal'),
+            closeBtn: document.getElementById('modal-close'),
+            cancelBtn: document.getElementById('profile-cancel-btn'),
+            saveBtn: document.getElementById('profile-save-btn'),
+            nameInput: document.getElementById('profile-name-input'),
+            roleSelect: document.getElementById('profile-role-select'),
+            avatarPresets: document.querySelectorAll('#avatar-presets-grid .preset-option'),
+            colorOptions: document.querySelectorAll('#theme-color-picker .color-option'),
+            sidebarName: document.getElementById('sidebar-user-name'),
+            sidebarRole: document.getElementById('sidebar-user-role'),
+            sidebarAvatar: document.getElementById('sidebar-avatar-container')
+        };
+
+        const AVATAR_HTML = {
+            wizard: '<div class="avatar-image-inner"><i class="fa-solid fa-wand-magic-sparkles"></i></div>',
+            scholar: '<div class="avatar-image-inner"><i class="fa-solid fa-robot"></i></div>',
+            ninja: '<div class="avatar-image-inner"><i class="fa-solid fa-user-ninja"></i></div>',
+            explorer: '<div class="avatar-image-inner"><i class="fa-solid fa-user-astronaut"></i></div>'
+        };
+
+        let currentProfile = {
+            name: localStorage.getItem('eduName') || 'Guest User',
+            role: localStorage.getItem('eduRole') || 'Student',
+            avatar: localStorage.getItem('eduAvatar') || 'wizard',
+            theme: localStorage.getItem('eduTheme') || 'purple'
+        };
+
+        // Temporary selections inside modal
+        let tempAvatar = currentProfile.avatar;
+        let tempTheme = currentProfile.theme;
+
+        function applyProfile() {
+            // Update sidebar fields
+            profileElements.sidebarName.textContent = currentProfile.name;
+            profileElements.sidebarRole.textContent = currentProfile.role;
+            profileElements.sidebarAvatar.innerHTML = AVATAR_HTML[currentProfile.avatar] || AVATAR_HTML.wizard;
+
+            // Remove previous theme classes
+            document.body.classList.forEach(className => {
+                if (className.startsWith('theme-')) {
+                    document.body.classList.remove(className);
+                }
+            });
+            // Apply new theme class
+            document.body.classList.add(`theme-${currentProfile.theme}`);
+        }
+
+        // Initialize on load
+        applyProfile();
+
+        // Modal triggers
+        profileElements.trigger.addEventListener('click', () => {
+            // Populate fields
+            profileElements.nameInput.value = currentProfile.name;
+            profileElements.roleSelect.value = currentProfile.role;
+            tempAvatar = currentProfile.avatar;
+            tempTheme = currentProfile.theme;
+
+            // Highlight active avatar preset
+            profileElements.avatarPresets.forEach(preset => {
+                preset.classList.toggle('selected', preset.getAttribute('data-avatar') === tempAvatar);
+            });
+
+            // Highlight active theme color dot
+            profileElements.colorOptions.forEach(opt => {
+                opt.classList.toggle('selected', opt.getAttribute('data-theme') === tempTheme);
+            });
+
+            // Open modal
+            profileElements.modal.style.display = 'flex';
+        });
+
+        const closeModal = () => {
+            profileElements.modal.style.display = 'none';
+        };
+
+        profileElements.closeBtn.addEventListener('click', closeModal);
+        profileElements.cancelBtn.addEventListener('click', closeModal);
+
+        // Click outside card to close
+        profileElements.modal.addEventListener('click', (e) => {
+            if (e.target === profileElements.modal) {
+                closeModal();
+            }
+        });
+
+        // Handle Avatar preset clicks
+        profileElements.avatarPresets.forEach(preset => {
+            preset.addEventListener('click', () => {
+                profileElements.avatarPresets.forEach(p => p.classList.remove('selected'));
+                preset.classList.add('selected');
+                tempAvatar = preset.getAttribute('data-avatar');
+            });
+        });
+
+        // Handle Theme dot clicks
+        profileElements.colorOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                profileElements.colorOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                tempTheme = opt.getAttribute('data-theme');
+            });
+        });
+
+        // Save Changes
+        profileElements.saveBtn.addEventListener('click', () => {
+            const nameVal = profileElements.nameInput.value.trim();
+            currentProfile.name = nameVal || 'Guest User';
+            currentProfile.role = profileElements.roleSelect.value;
+            currentProfile.avatar = tempAvatar;
+            currentProfile.theme = tempTheme;
+
+            // Persist settings
+            localStorage.setItem('eduName', currentProfile.name);
+            localStorage.setItem('eduRole', currentProfile.role);
+            localStorage.setItem('eduAvatar', currentProfile.avatar);
+            localStorage.setItem('eduTheme', currentProfile.theme);
+
+            // Apply updates
+            applyProfile();
+            closeModal();
+        });
+
+        // Utility: Escape HTML
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

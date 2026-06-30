@@ -1,0 +1,23 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Configuration & Credentials
+.env
+.env*.local
+
+# Database
+edugenie.db
+*.db
+
+# IDEs & System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
